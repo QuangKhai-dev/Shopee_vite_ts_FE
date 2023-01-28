@@ -75,10 +75,34 @@ export const schema = yup.object({
     .required("Không để trống Confirm  Password")
     .max(160, "Độ dài từ 5-160 ký tự")
     .min(5, "Độ dài từ 5-160 ký tự")
-    .oneOf([yup.ref("password"), null], "Mật khẩu không khớp")
+    .oneOf([yup.ref("password"), null], "Mật khẩu không khớp"),
+  price_min: yup.string().test({
+    name: "price_not_allow",
+    message: "Giá không phù hợp",
+    test: function (value) {
+      const price_min = value
+      const { price_max } = this.parent as { price_max: string; price_min: string }
+      if (price_min !== "" && price_max !== "") {
+        return Number(price_max) >= Number(price_min)
+      }
+      return price_min !== "" || price_max !== ""
+    }
+  }),
+  price_max: yup.string().test({
+    name: "price_not_allow",
+    message: "Giá không phù hợp",
+    test: function (value) {
+      const price_max = value
+      const { price_min } = this.parent as { price_max: string; price_min: string }
+      if (price_min !== "" && price_max !== "") {
+        return Number(price_max) >= Number(price_min)
+      }
+      return price_min !== "" || price_max !== ""
+    }
+  })
 })
 
-export const loginScheMa = schema.omit(["confirm_password"])
+export const loginScheMa = schema.omit(["confirm_password", "price_min", "price_max"])
 export type LoginSchemaType = yup.InferType<typeof loginScheMa>
 
 export type SchemaType = yup.InferType<typeof schema>

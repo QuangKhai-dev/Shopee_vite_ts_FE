@@ -42,6 +42,11 @@ export interface ProductListConfigApi {
   category?: string
 }
 
+export interface Category {
+  _id: string
+  name: string
+}
+
 export type ProductResponse = ResponseApi<{
   pagination: {
     page: number

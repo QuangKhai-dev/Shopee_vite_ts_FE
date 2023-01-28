@@ -78,7 +78,7 @@ function Login() {
                 type="email"
                 className="mt-8"
                 errorMessage={errors.email?.message}
-                placeHolder="Email"
+                placeholder="Email"
               />
               <Input
                 autoComplete="on"
@@ -87,7 +87,7 @@ function Login() {
                 type="password"
                 className="mt-3"
                 errorMessage={errors.password?.message}
-                placeHolder="Password"
+                placeholder="Password"
               />
               <div className="mt-3">
                 <Button

@@ -9,7 +9,6 @@ interface Props {
   queryConfig: QueryConfig
   pageSize: number
   // page: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 /**
@@ -30,7 +29,7 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
 
 const RANGE = 2
 
-export default function Pagination({ pageSize, setPage, queryConfig }: Props) {
+export default function Pagination({ pageSize, queryConfig }: Props) {
   const page = Number(queryConfig.page)
   const renderPageNumbers = () => {
     let dotAfter = false
@@ -86,9 +85,9 @@ export default function Pagination({ pageSize, setPage, queryConfig }: Props) {
               }).toString()
             }}
             key={index}
-            onClick={() => {
-              setPage(pageNumber)
-            }}
+            // onClick={() => {
+            //   setPage(pageNumber)
+            // }}
             className={classNames("mx - 2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm", {
               "border-cyan-500": pageNumber === page,
               "border-transparent": pageNumber !== page
@@ -102,14 +101,14 @@ export default function Pagination({ pageSize, setPage, queryConfig }: Props) {
   return (
     <div className="mt-6 flex flex-wrap justify-center space-x-2">
       {page === 1 ? (
-        <span className="mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm">Prev</span>
+        <span className="mx-2 cursor-not-allowed rounded bg-white px-3 py-2 shadow-sm">Prev</span>
       ) : (
         <Link
           to={{
             pathname: path.home,
             search: createSearchParams({
               ...queryConfig,
-              page: (page + 1).toString()
+              page: (page - 1).toString()
             }).toString()
           }}
           className="mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm"

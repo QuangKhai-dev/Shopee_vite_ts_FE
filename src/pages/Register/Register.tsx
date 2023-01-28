@@ -73,7 +73,7 @@ function Register() {
                 type="email"
                 className="mt-8"
                 errorMessage={errors.email?.message}
-                placeHolder="Email"
+                placeholder="Email"
               />
               <Input
                 autoComplete="on"
@@ -82,7 +82,7 @@ function Register() {
                 type="password"
                 className="mt-3"
                 errorMessage={errors.password?.message}
-                placeHolder="Password"
+                placeholder="Password"
               />
               <Input
                 autoComplete="on"
@@ -91,7 +91,7 @@ function Register() {
                 type="password"
                 className="mt-3"
                 errorMessage={errors.confirm_password?.message}
-                placeHolder="Confirm Password"
+                placeholder="Confirm Password"
               />
               <input type="text" />
               <div className="mt-2">

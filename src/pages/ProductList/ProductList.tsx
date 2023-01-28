@@ -15,7 +15,6 @@ export type QueryConfig = {
 
 const ProductList = () => {
   // const [productList, setProductList] = useState<ProductApi[]>(initialProductList)
-  const [page, setPage] = useState(3)
   const queryPamrams: QueryConfig = useQueryParams()
   const queryConfig: QueryConfig = omitBy(
     {
@@ -33,10 +32,10 @@ const ProductList = () => {
     isUndefined
   )
   // console.log(queryPamrams)
-  const { data } = useQuery({
+  const { data: productData } = useQuery({
     queryKey: ["products", queryConfig],
     queryFn: () => {
-      return productApi.getProduct(queryConfig)
+      return productApi.getProduct(queryConfig as ProductListConfigApi)
     },
     //Giữ cho data k set về undifined khi query mới
     keepPreviousData: true
@@ -47,18 +46,27 @@ const ProductList = () => {
   })
   // console.log(productList)
 
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => {
+      return productApi.getAllCategory()
+    },
+    keepPreviousData: true
+
+  })
+  console.log(categories?.data.data)
   return (
     <div className="bg-gray-200 py-6">
       <div className="container">
-        {data && (
+        {productData && (
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-3">
-              <AsideFilter />
+              <AsideFilter queryConfig={queryConfig} categories={categories?.data.data || []} />
             </div>
             <div className="col-span-9">
-              <SortProductList />
+              <SortProductList queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} />
               <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {data?.data.data.products.map((item: ProductApi, index: number) => {
+                {productData?.data.data.products.map((item: ProductApi, index: number) => {
                   return (
                     <div className="col-span-1" key={index}>
                       <Product product={item} />
@@ -66,7 +74,7 @@ const ProductList = () => {
                   )
                 })}
               </div>
-              <Pagination queryConfig={queryConfig} setPage={setPage} pageSize={data.data.data.pagination.page_size} />
+              <Pagination queryConfig={queryConfig} pageSize={productData.data.data.pagination.page_size} />
             </div>
           </div>
         )}
