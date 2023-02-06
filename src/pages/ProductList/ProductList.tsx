@@ -1,13 +1,14 @@
 import React, { useState } from "react"
-import AsideFilter from "./AsideFilter"
+import AsideFilter from "./components/AsideFilter"
 import { omitBy, isUndefined } from "lodash"
-import SortProductList from "./SortProductList"
+import SortProductList from "./components/SortProductList"
 import { useQuery } from "@tanstack/react-query"
 import useQueryParams from "src/hooks/useQueryParams"
 import productApi from "src/api/product.api"
 import { ProductApi, ProductListConfigApi } from "src/types/product.type"
-import Product from "./Product/Product"
+import Product from "./components/Product/Product"
 import Pagination from "src/components/Paginate"
+import useQueryConfig from "src/hooks/useQueryConfig"
 
 export type QueryConfig = {
   [key in keyof ProductListConfigApi]: string
@@ -15,22 +16,8 @@ export type QueryConfig = {
 
 const ProductList = () => {
   // const [productList, setProductList] = useState<ProductApi[]>(initialProductList)
-  const queryPamrams: QueryConfig = useQueryParams()
-  const queryConfig: QueryConfig = omitBy(
-    {
-      page: queryPamrams.page || "1",
-      limit: queryPamrams.limit,
-      sort_by: queryPamrams.sort_by,
-      order: queryPamrams.order,
-      category: queryPamrams.category,
-      exclude: queryPamrams.exclude,
-      name: queryPamrams.name,
-      price_max: queryPamrams.price_max,
-      price_min: queryPamrams.price_min,
-      rating_filter: queryPamrams.rating_filter
-    },
-    isUndefined
-  )
+  const queryConfig = useQueryConfig()
+
   // console.log(queryPamrams)
   const { data: productData } = useQuery({
     queryKey: ["products", queryConfig],
@@ -51,8 +38,8 @@ const ProductList = () => {
     queryFn: () => {
       return productApi.getAllCategory()
     },
-    keepPreviousData: true
-
+    keepPreviousData: true,
+    staleTime: 3 * 60 * 1000
   })
   console.log(categories?.data.data)
   return (

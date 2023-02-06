@@ -1,4 +1,3 @@
-import { type UseFormGetValues, type RegisterOptions } from "react-hook-form"
 // import { FormData } from "src/pages/Register/Register"
 import * as yup from "yup"
 
@@ -58,7 +57,17 @@ import * as yup from "yup"
 //   }
 // })
 
+const handleConfirmPasswordYup = (refString: string) => {
+  return yup
+    .string()
+    .required("Nhập lại password là bắt buộc")
+    .min(6, "Độ dài từ 6 - 160 ký tự")
+    .max(160, "Độ dài từ 6 - 160 ký tự")
+    .oneOf([yup.ref(refString)], "Nhập lại password không khớp")
+}
+
 export const schema = yup.object({
+  name: yup.string().max(160, "Độ dài tối đa là 160 ký tự"),
   email: yup
     .string()
     .email("Email không đúng định dạng")
@@ -70,12 +79,7 @@ export const schema = yup.object({
     .required("Không để trống Password")
     .max(160, "Độ dài từ 5-160 ký tự")
     .min(5, "Độ dài từ 5-160 ký tự"),
-  confirm_password: yup
-    .string()
-    .required("Không để trống Confirm  Password")
-    .max(160, "Độ dài từ 5-160 ký tự")
-    .min(5, "Độ dài từ 5-160 ký tự")
-    .oneOf([yup.ref("password"), null], "Mật khẩu không khớp"),
+  confirm_password: handleConfirmPasswordYup("password"),
   price_min: yup.string().test({
     name: "price_not_allow",
     message: "Giá không phù hợp",
@@ -102,7 +106,20 @@ export const schema = yup.object({
   })
 })
 
-export const loginScheMa = schema.omit(["confirm_password", "price_min", "price_max"])
+export const loginScheMa = schema.omit(["confirm_password", "price_min", "price_max", "name"])
 export type LoginSchemaType = yup.InferType<typeof loginScheMa>
 
 export type SchemaType = yup.InferType<typeof schema>
+
+export const userSchema = yup.object({
+  name: yup.string().max(160, ""),
+  phone: yup.string().max(20, ""),
+  address: yup.string().max(160, ""),
+  date_of_birth: yup.date().max(new Date(), ""),
+  avatar: yup.string().max(1000, ""),
+  password: schema.fields["password"],
+  new_password: schema.fields["password"],
+  confirm_password: handleConfirmPasswordYup("new_password")
+})
+
+export type UserSchemaType = yup.InferType<typeof userSchema>

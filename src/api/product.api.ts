@@ -8,7 +8,7 @@ const productApi = {
     return http.get<ResponseApi<ProductListApi>>(URL, { params })
   },
   getProductDetail(id: string) {
-    return http.get<ProductApi>(`${URL}/${id}`)
+    return http.get<ResponseApi<ProductApi>>(`${URL}/${id}`)
   },
   getAllCategory() {
     return http.get<ResponseApi<Category[]>>("/categories")

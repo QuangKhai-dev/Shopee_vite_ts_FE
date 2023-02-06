@@ -1,5 +1,6 @@
 import axios, { AxiosError, HttpStatusCode } from "axios"
-
+import config from "src/constant/config"
+import userImage from "src/assets/react.svg"
 export function isAxiosError(error: unknown): error is AxiosError {
   // eslint-disable-next-line import/no-named-as-default-member
   return axios.isAxiosError(error)
@@ -21,3 +22,20 @@ export function formatNumberToSocialStyle(value: number) {
     .replace(".", ",")
     .toLowerCase()
 }
+
+export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + "%"
+
+const removeSpecialCharacter = (str: string) =>
+  // eslint-disable-next-line no-useless-escape
+  str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, "")
+
+export const generateNameId = ({ name, id }: { name: string; id: string }) => {
+  return removeSpecialCharacter(name).replace(/\s/g, "-") + `-i-${id}`
+}
+
+export const getIdFromNameId = (nameId: string) => {
+  const arr = nameId.split("-i-")
+  return arr[arr.length - 1]
+}
+
+export const getAvatarUrl = (avatarName?: string) => (avatarName ? `${config.baseUrl}images/${avatarName}` : userImage)

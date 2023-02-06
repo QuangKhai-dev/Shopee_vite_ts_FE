@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, createSearchParams, useNavigate } from "react-router-dom"
 import path from "src/constant/path"
-import { QueryConfig } from "../ProductList"
+import { QueryConfig } from "../../ProductList"
 import { sortBy, order as OrderConstant } from "src/constant/product"
 import classNames from "classnames"
 import { ProductListConfigApi } from "src/types/product.type"

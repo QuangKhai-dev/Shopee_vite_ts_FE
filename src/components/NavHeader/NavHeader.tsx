@@ -10,10 +10,13 @@ import Popover from "../Popover"
 import { AppContext } from "src/context/app.context"
 import { logoutAccount } from "src/api/auth.api"
 import path from "src/constant/path"
+import { purchasesStatus } from "src/constant/purchase"
+import { getAvatarUrl } from "src/utils/utils"
 // import { useTranslation } from 'react-i18next'
 // import { locales } from 'src/i18n/i18n'
 
 export default function NavHeader() {
+  const queryClient = useQueryClient()
   const { isAuthenticated, setIsAuthenticated, setProfile, profile } = useContext(AppContext)
   // console.log(profile)
   const logoutMutation = useMutation({
@@ -22,6 +25,7 @@ export default function NavHeader() {
       // console.log(data)
       setIsAuthenticated(false)
       setProfile(null)
+      queryClient.removeQueries({ queryKey: ["purchases", { status: purchasesStatus.inCart }] })
     }
   })
 
@@ -74,7 +78,7 @@ export default function NavHeader() {
           renderPopover={
             <div className="relative rounded-sm border border-gray-200 bg-white shadow-md">
               <Link
-                to={path.home}
+                to={path.profile}
                 className="block w-full bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500"
               >
                 Tài khoản của tôi
@@ -95,7 +99,7 @@ export default function NavHeader() {
           }
         >
           <div className="mr-2 h-6 w-6 flex-shrink-0">
-            <img src="https://i.pravatar.cc/300" alt="avatar" className="h-full w-full rounded-full object-cover" />
+            <img src={getAvatarUrl(profile?.avatar)} alt="avatar" className="h-full w-full rounded-full object-cover" />
           </div>
           <div>{profile?.email}</div>
         </Popover>

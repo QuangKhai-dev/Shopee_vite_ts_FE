@@ -3,7 +3,7 @@ import { Link, createSearchParams, useNavigate } from "react-router-dom"
 import Button from "src/components/Button"
 import path from "src/constant/path"
 import { Category } from "src/types/product.type"
-import { QueryConfig } from "../ProductList"
+import { QueryConfig } from "../../ProductList"
 import classNames from "classnames"
 import { useForm, Controller } from "react-hook-form"
 import { SchemaType, schema } from "src/utils/rulesForm"
@@ -12,6 +12,7 @@ import InputNumber from "src/components/InputNumber"
 import { NoUndefinedField } from "src/types/utils.type"
 import RatingStars from "../RatingStar"
 import { omit } from "lodash"
+import InputV2 from "src/components/InputV2/InputV2"
 
 interface Props {
   queryConfig: QueryConfig
@@ -44,7 +45,7 @@ export default function AsideFilter({ categories, queryConfig }: Props) {
       search: createSearchParams({
         ...queryConfig,
         price_min: data.price_min,
-        price_max: data.price_max,
+        price_max: data.price_max
       }).toString()
     })
     console.log(data)
@@ -91,9 +92,7 @@ export default function AsideFilter({ categories, queryConfig }: Props) {
   const removeFilter = () => {
     navigate({
       pathname: path.home,
-      search: createSearchParams(
-        omit(queryConfig, ["price_min", "price_max", "rating_filter", "category"])
-      ).toString()
+      search: createSearchParams(omit(queryConfig, ["price_min", "price_max", "rating_filter", "category"])).toString()
     })
   }
 
@@ -161,6 +160,18 @@ export default function AsideFilter({ categories, queryConfig }: Props) {
               )}
               name="price_min"
             />
+            {/* <InputV2
+              control={control}
+              name="price_min"
+              type="number"
+              classNameInput="p-1 text-sm w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm"
+              classNameError="hidden"
+              className="grow"
+              placeholder="đ Từ"
+              onChange={(event) => {
+                trigger("price_max")
+              }} // send value to hook form
+            /> */}
             <div className="mx-2 mt-2 shrink-0">-</div>
             <Controller
               control={control}
@@ -182,7 +193,7 @@ export default function AsideFilter({ categories, queryConfig }: Props) {
               name="price_max"
             />
           </div>
-          <div className="mt-1 text-red-600 min-h-[1.25rem] text-sm">{errors?.price_min?.message}</div>
+          <div className="mt-1 min-h-[1.25rem] text-sm text-red-600">{errors?.price_min?.message}</div>
           <Button className="flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-opacity-80">
             Áp dụng
           </Button>
@@ -196,10 +207,15 @@ export default function AsideFilter({ categories, queryConfig }: Props) {
           </li>
         </ul>
       </div>
-      <div className='text-sm'>Đánh giá</div>
+      <div className="text-sm">Đánh giá</div>
       <RatingStars queryConfig={queryConfig} />
-      <div className='my-4 h-[1px] bg-gray-300' />
-      <Button onClick={() => { removeFilter() }} className="flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-opacity-80">
+      <div className="my-4 h-[1px] bg-gray-300" />
+      <Button
+        onClick={() => {
+          removeFilter()
+        }}
+        className="flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-opacity-80"
+      >
         Xoá tất cả
       </Button>
     </div>

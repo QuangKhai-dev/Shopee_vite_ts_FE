@@ -14,7 +14,7 @@ import { isAxiosUnprocessableEntityError } from "src/utils/utils"
 
 // type Props = {}
 
-type LoginFormData = LoginSchemaType
+type LoginFormData = Pick<LoginSchemaType, "email" | "password">
 
 function Login() {
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
@@ -38,6 +38,7 @@ function Login() {
   })
 
   const onSubmit = handleSubmit((data) => {
+    console.log("first")
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
         // console.log(data)
@@ -59,6 +60,8 @@ function Login() {
       }
     })
   })
+
+  console.log(errors)
 
   return (
     <div className="bg-orange">

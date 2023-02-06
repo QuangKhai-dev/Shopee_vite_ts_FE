@@ -23,7 +23,7 @@ export default function Input({
   const registerResult = register && name ? register(name, ruleForm) : null
   return (
     <div className={className}>
-      <input className={classNameInput}  {...registerResult} {...rest} />
+      <input className={classNameInput} {...registerResult} {...rest} />
       <div className={classNameError}>{errorMessage}</div>
     </div>
   )
