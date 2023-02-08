@@ -12,6 +12,8 @@ import purchaseApi from "src/api/purchase.api"
 import { toast } from "react-toastify"
 import { purchasesStatus } from "src/constant/purchase"
 import path from "src/constant/path"
+import ErrorBoundary from "src/components/ErrorBoundary"
+import NotFound from "../NotFound"
 
 export default function ProductDetail() {
   const { nameId } = useParams()
@@ -299,6 +301,6 @@ export default function ProductDetail() {
       </div>
     </div>
   ) : (
-    <div></div>
+    <NotFound />
   )
 }
