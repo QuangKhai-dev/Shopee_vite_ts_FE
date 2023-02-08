@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, lazy, Suspense } from "react"
 import { Navigate, Outlet, useRoutes } from "react-router-dom"
 import path from "src/constant/path"
 import { AppContext } from "src/context/app.context"
@@ -6,7 +6,6 @@ import CartLayout from "src/layouts/CartLayout"
 import MainLayout from "src/layouts/MainLayout"
 import RegisterLayOut from "src/layouts/RegisterLayout"
 import Cart from "src/pages/Cart"
-import Login from "src/pages/Login"
 import NotFound from "src/pages/NotFound"
 import ProductDetail from "src/pages/ProductDetail"
 import ProductList from "src/pages/ProductList"
@@ -15,6 +14,10 @@ import UserLayout from "src/pages/User/layouts/UserLayout"
 import ChangePassword from "src/pages/User/pages/ChangePassword"
 import HistoryPurchase from "src/pages/User/pages/HistoryPurchase"
 import Profile from "src/pages/User/pages/Profile"
+
+// Dùng lazy để hạn chế tải quá nhiều trang không cần thiết
+const Login = lazy(() => import("src/pages/Login"))
+
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -93,7 +96,9 @@ export default function useRouteElement() {
           path: path.login,
           element: (
             <RegisterLayOut>
-              <Login />
+              <Suspense>
+                <Login />
+              </Suspense>
             </RegisterLayOut>
           )
         },
