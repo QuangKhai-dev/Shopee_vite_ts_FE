@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AppProvider } from "./context/app.context"
 import ErrorBoundary from "./components/ErrorBoundary"
+import './i18n/i18n'
 
 // Create a client
 const queryClient = new QueryClient({
