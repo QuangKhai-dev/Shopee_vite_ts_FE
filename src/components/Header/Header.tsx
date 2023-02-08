@@ -3,18 +3,14 @@ import { useContext } from "react"
 import { Link, createSearchParams, useNavigate } from "react-router-dom"
 import { useFloating } from "@floating-ui/react"
 import Popover from "../Popover"
-import NavHeader from "../NavHeader/NavHeader"
 import { AppContext } from "src/context/app.context"
-import useQueryConfig from "src/hooks/useQueryConfig"
-import { useForm } from "react-hook-form"
-import { SchemaType, schema } from "src/utils/rulesForm"
-import { yupResolver } from "@hookform/resolvers/yup"
 import path from "src/constant/path"
 import purchaseApi from "src/api/purchase.api"
 import { purchasesStatus } from "src/constant/purchase"
 import { formatCurrency } from "src/utils/utils"
 import emptyCart from './../../assets/img/cart-is-empty.png'
 import useSearchProducts from "src/hooks/useSearchProduct"
+import NavHeader from "../NavHeader"
 
 
 

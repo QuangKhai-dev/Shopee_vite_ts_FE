@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import NavHeader from '../NavHeader/NavHeader'
 import path from 'src/constant/path'
 import useSearchProducts from 'src/hooks/useSearchProduct'
+import NavHeader from '../NavHeader'
 
 export default function CartHeader() {
   const { onSubmitSearch, register } = useSearchProducts()
